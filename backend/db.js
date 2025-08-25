@@ -1,7 +1,14 @@
 // backend/db.js
 const mongoose = require('mongoose');
+const { MONGODB_URI } = require('./config');
 
-mongoose.connect("mongodb://localhost:27017/paytm")
+mongoose.connect(MONGODB_URI)
+.then(() => {
+    console.log('Connected to MongoDB Atlas');
+}).catch((error) => {
+    console.error('Error connecting to MongoDB Atlas:', error);
+    process.exit(1);
+});
 
 // Create a Schema for Users
 const userSchema = new mongoose.Schema({
@@ -41,14 +48,47 @@ const accountSchema = new mongoose.Schema({
     },
     balance: {
         type: Number,
-        required: true
+        required: true,
+        default: 0
     }
+}, {
+    timestamps: true
+});
+
+const transactionSchema = new mongoose.Schema({
+    fromUserId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    },
+    toUserId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    },
+    amount: {
+        type: Number,
+        required: true
+    },
+    status: {
+        type: String,
+        enum: ['pending', 'completed', 'failed'],
+        default: 'completed'
+    },
+    description: {
+        type: String,
+        default: ''
+    }
+}, {
+    timestamps: true
 });
 
 const Account = mongoose.model('Account', accountSchema);
 const User = mongoose.model('User', userSchema);
+const Transaction = mongoose.model('Transaction', transactionSchema);
 
 module.exports = {
 	User,
-    Account
+    Account,
+    Transaction
 };
