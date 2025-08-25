@@ -2,7 +2,7 @@
 
 A modern, full-stack digital wallet application built with React, Node.js, Express, and MongoDB. Features secure money transfers, transaction history, and user management.
 
-![PayWallet](https://via.placeholder.com/800x400/667eea/ffffff?text=PayWallet+-+Digital+Wallet+Solution)
+![PayWallet](https://photos.app.goo.gl/Xz9DpTU4XMFnmHDL8)
 
 ## ✨ Features
 
